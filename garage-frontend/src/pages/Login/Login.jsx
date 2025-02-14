@@ -8,7 +8,7 @@ function Login() {
   // Declare a state variable to store the response from the server
   const [responseMessage, setResponseMessage] = useState('');
 
-  
+
   // Write a function to handle the form submission
   function handleSubmit(event) {
     // Prevent the default behaviour of the form submission
@@ -44,10 +44,17 @@ function Login() {
 
 
   return (
-    <div>
-
-
-
+      <div>
+      {/* Display the return message in here */}
+      <div className='notice'><h2>{responseMessage}</h2></div>
+      <h1>Login </h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="email">Email:</label><br />
+        <input type="text" id="email" name="email" value={emailAddress} onChange={event => setEmailAddress(event.target.value)} /><br />
+        <label htmlFor="password">Password:</label><br />
+        <input type="text" id="password" name="password" value={password} onChange={event => setPassword(event.target.value)} /><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
     </div>
   )
 }
