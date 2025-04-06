@@ -38,6 +38,8 @@ function Header(props) {
                         <li className="dropdown"><Link to="/about">About Us</Link></li>
                         <li className="dropdown"><Link to="/services">Services</Link></li>
                         <li><Link to="/contact">Contact Us</Link></li>
+                        <li><Link to="/admin/add-employee">Admin</Link></li>
+
                       </ul>
                     </div>
                   </nav>

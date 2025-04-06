@@ -260,3 +260,7 @@ input:disabled {
 .change-status {
   cursor: pointer;
 }
+
+.sec-title.no-bg h2:before {
+  background-color: transparent !important;
+}

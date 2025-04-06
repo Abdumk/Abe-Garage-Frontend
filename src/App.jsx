@@ -4,10 +4,13 @@ import React from 'react';
 import { Routes, Route } from "react-router";
 
 // Import the css files 
-import "./assets/template_assets/css/bootstrap.css";
+import "./assets/template_assets/css/bootstrap.css"; 
+
 import "./assets/template_assets/css/style.css";
+
 import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
+ import "./assets/styles/custom.css";
 
 // Import the custom css file 
 import "./assets/styles/custom.css";
@@ -22,6 +25,17 @@ import Login from '../src/markup/components/LoginForm/LoginForm';
 import Home from '../src/markup/pages/Home';
 // import the AddEmployee component
 import AddEmployee from '../src/markup/pages/admin/AddEmployee';
+// import the Services component
+import Services from '../src/markup/pages/Services';
+// import the About component
+import About from '../src/markup/pages/About';
+// import the Contact component
+import Contact from '../src/markup/pages/Contact';
+
+
+
+
+
 
 function App() {
   return (
@@ -29,6 +43,11 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+      
+
         <Route path="/login" element={<Login />} />
         <Route path="/admin/add-employee" element={<AddEmployee />} />
       </Routes>
