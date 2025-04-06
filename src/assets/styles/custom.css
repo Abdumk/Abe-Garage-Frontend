@@ -264,3 +264,65 @@ input:disabled {
 .sec-title.no-bg h2:before {
   background-color: transparent !important;
 }
+
+
+/* External CSS for the list items */
+.list-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Styling for the icon */
+.list-item .icon {
+  margin-right: 30px;
+}
+
+.list-item .icon span {
+  font-size: 40px;
+  color: red; /* Red color for icons */
+}
+
+/* Styling for the h5 element */
+.list-item h5 {
+  margin-bottom: 15px;
+}
+
+/* Styling for the text */
+.list-item .text {
+  display: inline;
+  margin: 0;
+}
+
+/* External CSS for the contact-info-section */
+.contact-info-section {
+  padding-top: 90px;  /* Add padding to the top of the section */
+  padding-bottom: 40px;  /* Add padding to the bottom of the section */
+}
+
+/* Use Flexbox for the container */
+.auto-container {
+  /* display: flex; */
+  flex-wrap: wrap; 
+  justify-content: space-between;  
+  gap: 20px;  
+}
+
+/* Map Column */
+.map-column {
+  flex: 1 1 48%;  /* Flex setting to control the width, add space between columns */
+  margin-right: 45px;  /* Add margin to the bottom of the map */
+ }
+
+/* Info Column */
+.info-column {
+  flex: 1 1 48%;  /* Flex setting to control the width */
+  margin-bottom: 20px;  /* Add margin to the bottom of the info section */
+}
+
+/* Ensure proper iframe styling */
+.map-outer iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
+}

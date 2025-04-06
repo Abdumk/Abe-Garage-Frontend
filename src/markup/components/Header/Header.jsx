@@ -15,7 +15,7 @@ function Header(props) {
                 <div className="office-hour">Monday - Saturday 7:00AM - 6:00PM</div>
               </div>
               <div className="right-column">
-                <div className="phone-number">Schedule Your Appointment Today : <strong>1800 456 7890</strong>
+                <div className="phone-number">Call Abe : <strong>1800 456 7890</strong>
                 </div>
               </div>
             </div>
