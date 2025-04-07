@@ -31,10 +31,14 @@ import Services from '../src/markup/pages/Services';
 import About from '../src/markup/pages/About';
 // import the Contact component
 import Contact from '../src/markup/pages/Contact';
+// Import the Addcutomers component
 
+import Addcutomer from './markup/pages/AddCustomerPage/AddCustomerPage';
 
-
-
+// Import the AddVehiclePage component
+ import AddVehicle from './markup/pages/AddVehiclePage/AddVehiclePage';
+// Import the AdminDashboard component
+import AdminDashboard from './markup/pages/AdminDashboardpage/AdminDashboardpage';
 
 
 function App() {
@@ -49,7 +53,12 @@ function App() {
       
 
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/add-employee" element={<AddEmployee />} />
+        <Route path="/admin/add-employee" element={<AddEmployee />} />  
+        <Route path="/admin/add-customer" element={<Addcutomer />} /> 
+        <Route path="/admin/customers" element={<AddVehicle />} /> 
+        <Route path="/admin" element={<AdminDashboard   />} /> 
+
+
       </Routes>
       <Footer />
     </>
