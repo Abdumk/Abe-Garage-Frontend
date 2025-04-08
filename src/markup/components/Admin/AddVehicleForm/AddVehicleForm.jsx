@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-dasheboard,addcustomer,AddVehicle
 function AddVehicleForm({ customerId, onClose }) {
   const [formData, setFormData] = useState({
     vehicle_year: '',
