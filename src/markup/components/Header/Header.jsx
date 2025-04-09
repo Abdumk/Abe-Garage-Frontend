@@ -1,11 +1,17 @@
 import React from 'react';
 // Import the logo image 
 import logo from '../../../assets/images/banner/logo.png';
+
+// Import the Link component from react-router-dom 
 import { Link } from 'react-router-dom';
+
 // Import the login service to access the logout function
 import loginService from '../../../services/login.service'; 
+
 // Import the custom context hook 
 import { useAuth } from '../../../Contexts/AuthContext';
+
+
 function Header(props) {
  // Use the custom hook to access the data in the context 
  const { isLogged, setIsLogged, employee } = useAuth();
