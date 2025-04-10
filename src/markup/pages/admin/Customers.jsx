@@ -4,7 +4,7 @@ import React from 'react'
 import AdminMenu from '../../components/Admin/AdminMenu/AdminMenu';
 // Import the Addcutomers component
 import AddCustomerForm from '../../components/Admin/AddCustomerForm/AddCustomerForm';
-function AddCustomerPage() {
+function Customers() {
     return (
         <div>
           <div className="container-fluid admin-pages">
@@ -22,4 +22,4 @@ function AddCustomerPage() {
       );
 }
 
-export default AddCustomerPage
+export default Customers

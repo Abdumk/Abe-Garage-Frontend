@@ -5,12 +5,10 @@ import { Routes, Route } from "react-router";
 
 // Import the css files 
 import "./assets/template_assets/css/bootstrap.css"; 
-
 import "./assets/template_assets/css/style.css";
-
 import "./assets/template_assets/css/responsive.css";
 import "./assets/template_assets/css/color.css";
- import "./assets/styles/custom.css";
+
 
 // Import the custom css file 
 import "./assets/styles/custom.css";
@@ -33,14 +31,24 @@ import About from '../src/markup/pages/About';
 import Contact from '../src/markup/pages/Contact';
 // Import the Addcutomers component
 
-import Addcutomer from './markup/pages/AddCustomerPage/AddCustomerPage';
+import Customers from './markup/pages/admin/Customers';
 
 // Import the AddVehiclePage component
- import AddVehicle from './markup/pages/AddVehiclePage/AddVehiclePage';
+ import AddVehicle from './markup/pages/admin/AddVehicle';
 // Import the AdminDashboard component
-import AdminDashboard from './markup/pages/AdminDashboardpage/AdminDashboardpage';
-
-
+import AdminDashboard from './markup/pages/admin/AdminDashboardpage';
+// Import the PrivateAuthRoute component 
+import PrivateAuthRoute from './markup/components/Auth/PrivateAuthRoute';
+// Import Orders component
+import Orders from './markup/pages/admin/Orders';
+// Import Unauthorized component
+import Unauthorized from './markup/pages/Unauthorized';
+// Import the Employees
+import Employees from './markup/pages/admin/Employees';
+// Import the Neworder component
+import Neworder from './markup/pages/admin/Neworder';
+// Import the Services Manager component
+import ServicesManager from './markup/pages/admin/ServicesManager';
 function App() {
   return (
     <>
@@ -50,13 +58,50 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-      
-
         <Route path="/login" element={<Login />} />
-        <Route path="/admin/add-employee" element={<AddEmployee />} />  
-        <Route path="/admin/add-customer" element={<Addcutomer />} /> 
-        <Route path="/admin/customers" element={<AddVehicle />} /> 
+        <Route path="/unauthorized" element={<Unauthorized />} /> 
         <Route path="/admin" element={<AdminDashboard   />} /> 
+
+
+         {/* // Add the Orders Route  */}
+         <Route path="/admin/orders"
+          element={
+            <PrivateAuthRoute roles={[1, 2, 3]}>
+              <Orders />
+            </PrivateAuthRoute>
+          } />
+        {/* // Add the New order Route  */}
+        <Route path="admin/order" element={<Neworder />} />  
+
+    {/* // Add the Add Employees Route  */}
+         <Route path="/admin/add-employee"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <AddEmployee />
+            </PrivateAuthRoute>
+          } />
+       
+       {/* // Add the Employees list Route N:B the autorization code write in itself component */}
+        <Route path="/admin/employees" element={<Employees />} /> 
+
+
+         {/* // Add the Customers Route  */}
+        <Route path="/admin/customers"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <AddVehicle />
+            </PrivateAuthRoute>
+          } />
+
+        {/* // Add the Add Vehicle Route  */}
+        <Route path="/admin/add-customer" element={<Customers  />} /> 
+
+        {/* // Add the Services Route  */}
+        <Route path="/admin/services" element={<ServicesManager />} />  
+
+
+        
+        {/* <Route path="/admin/add-customer" element={<Customers />} />  */}
 
 
       </Routes>
