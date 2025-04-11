@@ -64,7 +64,8 @@ function Header(props) {
                         <li className="dropdown"><Link to="/about">About Us</Link></li>
                         <li className="dropdown"><Link to="/services">Services</Link></li>
                         <li><Link to="/contact">Contact Us</Link></li>
-                        <li><Link to="/admin">Admin</Link></li>
+                        {/* <li><Link to="/admin">Admin</Link></li> */}
+                        {isLogged && (<li><Link to="/admin">Admin</Link></li> )}
 
                       </ul>
                     </div>
