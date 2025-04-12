@@ -1,53 +1,56 @@
-// Import the necessary components 
+// Import the necessary components
 import React, { useState, useEffect } from "react";
-import { Table, Button } from 'react-bootstrap';
-// Import the auth hook  
+import { Table, Button } from "react-bootstrap";
+import { FaEdit, FaTrash } from "react-icons/fa";
+// Import the auth hook
 import { useAuth } from "../../../../Contexts/AuthContext";
-// Import the date-fns library 
-import { format } from 'date-fns'; // To properly format the date on the table 
-// Import the getAllEmployees function  
+// Import the date-fns library
+import { format } from "date-fns"; // To properly format the date on the table
+// Import the getAllEmployees function
 import employeeService from "../../../../services/employee.service";
 
-// Create the EmployeesList component 
+// Create the EmployeesList component
 const EmployeesList = () => {
   // Create all the states we need to store the data
-  // Create the employees state to store the employees data  
+  // Create the employees state to store the employees data
   const [employees, setEmployees] = useState([]);
-  // A state to serve as a flag to show the error message 
+  // A state to serve as a flag to show the error message
   const [apiError, setApiError] = useState(false);
-  // A state to store the error message 
+  // A state to store the error message
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
   // To get the logged in employee token
   const { employee } = useAuth();
-  let token = null; // To store the token 
+  let token = null; // To store the token
   if (employee) {
     token = employee.employee_token;
   }
 
   useEffect(() => {
-    // Call the getAllEmployees function 
+    // Call the getAllEmployees function
     const allEmployees = employeeService.getAllEmployees(token);
-    allEmployees.then((res) => {
-      if (!res.ok) {
-        console.log(res.status);
-        setApiError(true);
-        if (res.status === 401) {
-          setApiErrorMessage("Please login again");
-        } else if (res.status === 403) {
-          setApiErrorMessage("You are not authorized to view this page");
-        } else {
-          setApiErrorMessage("Please try again later");
+    allEmployees
+      .then((res) => {
+        if (!res.ok) {
+          console.log(res.status);
+          setApiError(true);
+          if (res.status === 401) {
+            setApiErrorMessage("Please login again");
+          } else if (res.status === 403) {
+            setApiErrorMessage("You are not authorized to view this page");
+          } else {
+            setApiErrorMessage("Please try again later");
+          }
         }
-      }
-      return res.json()
-    }).then((data) => {
-      if (data.data.length !== 0) {
-        setEmployees(data.data)
-      }
-
-    }).catch((err) => {
-      // console.log(err);
-    })
+        return res.json();
+      })
+      .then((data) => {
+        if (data.data.length !== 0) {
+          setEmployees(data.data);
+        }
+      })
+      .catch((err) => {
+        // console.log(err);
+      });
   }, []);
 
   return (
@@ -57,7 +60,7 @@ const EmployeesList = () => {
           <div className="auto-container">
             <div className="contact-title">
               <h2>{apiErrorMessage}</h2>
-            </div >
+            </div>
           </div>
         </section>
       ) : (
@@ -65,9 +68,9 @@ const EmployeesList = () => {
           <section className="contact-section">
             <div className="auto-container">
               <div className="contact-title">
-                <h2>Employees</h2 >
-              </div >
-              < Table striped bordered hover >
+                <h2>Employees</h2>
+              </div>
+              <Table striped bordered hover>
                 <thead>
                   <tr>
                     <th>Active</th>
@@ -88,24 +91,30 @@ const EmployeesList = () => {
                       <td>{employee.employee_last_name}</td>
                       <td>{employee.employee_email}</td>
                       <td>{employee.employee_phone}</td>
-                      <td>{format(new Date(employee.added_date), 'MM - dd - yyyy | kk:mm')}</td>
+                      <td>
+                        {format(
+                          new Date(employee.added_date),
+                          "MM - dd - yyyy | kk:mm"
+                        )}
+                      </td>
                       <td>{employee.company_role_name}</td>
                       <td>
-                        <div className="edit-delete-icons">
-                          edit | delete
+                        <div style={{ display: "flex", gap: "10px" }}>
+                          <FaEdit style={{ cursor: "pointer" }} />
+                          <FaTrash style={{ cursor: "pointer" }} />
                         </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
-              </Table >
-            </div >
-          </section >
+              </Table>
+            </div>
+          </section>
         </>
       )}
     </>
   );
-}
+};
 
-// Export the EmployeesList component 
+// Export the EmployeesList component
 export default EmployeesList;

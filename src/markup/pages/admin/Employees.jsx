@@ -24,7 +24,7 @@ function Employees() {
                 <AdminMenu />
               </div>
               <div className="col-md-9 admin-right-side">
-                {/* <EmployeesList /> */}
+                <EmployeesList />
               </div>
             </div>
           </div>
