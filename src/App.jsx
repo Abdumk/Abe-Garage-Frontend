@@ -3,6 +3,7 @@ import React from 'react';
 // Import the Routes and Route components from react-router 
 import { Routes, Route } from "react-router";
 
+
 // Import the css files 
 import "./assets/template_assets/css/bootstrap.css"; 
 import "./assets/template_assets/css/style.css";
@@ -49,6 +50,8 @@ import Employees from './markup/pages/admin/Employees';
 import Neworder from './markup/pages/admin/Neworder';
 // Import the Services Manager component
 import ServicesManager from './markup/pages/admin/ServicesManager';
+
+import EditEmployee from './markup/components/Admin/AddEmployeeForm/EditEmployee';
 function App() {
   return (
     <>
@@ -98,6 +101,8 @@ function App() {
 
         {/* // Add the Services Route  */}
         <Route path="/admin/services" element={<ServicesManager />} />  
+        <Route path="/admin/edit-employee/:id" element={<EditEmployee />} />
+
 
 
         
