@@ -51,7 +51,7 @@ import Neworder from './markup/pages/admin/Neworder';
 // Import the Services Manager component
 import ServicesManager from './markup/pages/admin/ServicesManager';
 
-import EditEmployee from './markup/components/Admin/AddEmployeeForm/EditEmployee';
+import EditEmployees from './markup/pages/admin/EditEmployes';
 function App() {
   return (
     <>
@@ -101,7 +101,9 @@ function App() {
 
         {/* // Add the Services Route  */}
         <Route path="/admin/services" element={<ServicesManager />} />  
-        <Route path="/admin/edit-employee/:id" element={<EditEmployee />} />
+        {/* <Route path="/admin/edit-employee/:id" element={<EditEmployee />} /> */}
+        <Route path="/admin/employee/:id" element={<EditEmployees />} />
+
 
 
 

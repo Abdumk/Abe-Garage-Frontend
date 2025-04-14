@@ -55,14 +55,25 @@ const editEmployee = async (employee_id, updatedData, token) => {
   const response = await fetch(`${api_url}/api/employee/${employee_id}`, requestOptions);
   return response;
 };
-
+const getEmployeeById = async (employeeId, token) => {
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': token
+    }
+  };
+  const response = await fetch(`${api_url}/api/employee/${employeeId}`, requestOptions);
+  return response;
+};
 
 // Export all the functions 
 const employeeService = {
   createEmployee,
   getAllEmployees,
   deleteEmployee,
-  editEmployee
+  editEmployee,
+  getEmployeeById
 };
 
 export default employeeService;

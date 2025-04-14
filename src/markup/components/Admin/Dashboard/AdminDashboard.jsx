@@ -67,7 +67,7 @@ function AdminDashboard() {
      <div className="col-lg-4 service-block-one">
        <div className="inner-box hvr-float-shadow">
          <h5>Service and Repairs</h5>
-         <h2>Engine Service & Repair</h2>
+         <h2>Engine Service</h2>
          <a href="#" className="read-more">
            read more +
          </a>
@@ -103,7 +103,7 @@ function AdminDashboard() {
      <div className="col-lg-4 service-block-one">
        <div className="inner-box hvr-float-shadow">
          <h5>Service and Repairs</h5>
-         <h2>Engine Service & Repair</h2>
+         <h2>Engine Service</h2>
          <a href="#" className="read-more">
            read more +
          </a>

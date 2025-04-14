@@ -8,7 +8,7 @@ import { useAuth } from "../../../../Contexts/AuthContext";
 import { format } from "date-fns"; // To properly format the date on the table
 // Import the getAllEmployees function
 import employeeService from "../../../../services/employee.service";
-import EditEmployee from "../AddEmployeeForm/EditEmployee"; // Import the EditEmployee component
+import EditEmployee from "../EditEmployeeForm/EditEmployee"; // Import the EditEmployee component
 import { useNavigate } from "react-router-dom"; // Import the useNavigate hook
 // Create the EmployeesList component
 const EmployeesList = () => {
@@ -84,13 +84,26 @@ const EmployeesList = () => {
   };
   
 
+  // const handleEdit = (employee) => {
+  //   // You can redirect to an edit form page or open a modal here
+  //   setSelectedEmployee(employee);
+  // setEditModalOpen(true);
+  //   console.log("Edit clicked for:", employee);
+  //   // navigate(`/admin/edit-employee/${employee.employee_id}`);
+  //   navigate(`/admin/employee/edit/${employee.employee_id}`);
+
+  // };
+  // const handleEdit = (employee) => {
+  //   setSelectedEmployee(employee);
+  //   setEditModalOpen(true);
+  //   console.log("Edit clicked for:", employee.employee_id);
+  // };
+  
   const handleEdit = (employee) => {
-    // You can redirect to an edit form page or open a modal here
-    setSelectedEmployee(employee);
-  setEditModalOpen(true);
-    console.log("Edit clicked for:", employee);
-    navigate(`/admin/edit-employee/${employee.employee_id}`);
+    console.log("Navigating to edit:", employee.employee_id);
+    navigate(`/admin/employee/${employee.employee_id}`);
   };
+  
   
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
@@ -165,7 +178,7 @@ const EmployeesList = () => {
 </div>
 
                       </td> */}
-                      <td>
+                      {/* <td>
   <div
     style={{
       display: "flex",
@@ -183,7 +196,27 @@ const EmployeesList = () => {
       onClick={() => handleDelete(employee.employee_id)}
     />
   </div>
+</td> */}
+<td>
+  <div
+    style={{
+      display: "flex",
+      gap: "10px",
+      backgroundColor: "red",
+      padding: "10px",
+    }}
+  >
+    <FaEdit
+      style={{ cursor: "pointer", color: "white" }}
+      onClick={() => handleEdit(employee)} // ✅ Pass the whole employee object
+    />
+    <FaTrash
+      style={{ cursor: "pointer", color: "white" }}
+      onClick={() => handleDelete(employee.employee_id)} // ✅ Pass just the ID
+    />
+  </div>
 </td>
+
                     </tr>
                   ))}
                 </tbody>
