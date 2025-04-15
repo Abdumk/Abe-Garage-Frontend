@@ -1,10 +1,10 @@
 import React from 'react'
 
+import EditCustomers from '../../components/Admin/EditCustomerForm/EditCustomerForm';
 // Import the AdminMenu component 
 import AdminMenu from '../../components/Admin/AdminMenu/AdminMenu';
-// Import the Addcutomers component
-import AddCustomerForm from '../../components/Admin/AddCustomerForm/AddCustomerForm';
-function Customers() {
+
+function EditCustomer() {
     return (
         <div>
           <div className="container-fluid admin-pages">
@@ -13,13 +13,15 @@ function Customers() {
                 <AdminMenu />
               </div>
               <div className="col-md-9 admin-right-side">
-             <AddCustomerForm />
-
+                <EditCustomers />
               </div>
             </div>
           </div>
         </div>
-      );
+      )
 }
 
-export default Customers
+export default EditCustomer
+
+
+

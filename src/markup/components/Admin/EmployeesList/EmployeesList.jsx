@@ -83,22 +83,6 @@ const EmployeesList = () => {
       });
   };
   
-
-  // const handleEdit = (employee) => {
-  //   // You can redirect to an edit form page or open a modal here
-  //   setSelectedEmployee(employee);
-  // setEditModalOpen(true);
-  //   console.log("Edit clicked for:", employee);
-  //   // navigate(`/admin/edit-employee/${employee.employee_id}`);
-  //   navigate(`/admin/employee/edit/${employee.employee_id}`);
-
-  // };
-  // const handleEdit = (employee) => {
-  //   setSelectedEmployee(employee);
-  //   setEditModalOpen(true);
-  //   console.log("Edit clicked for:", employee.employee_id);
-  // };
-  
   const handleEdit = (employee) => {
     console.log("Navigating to edit:", employee.employee_id);
     navigate(`/admin/employee/${employee.employee_id}`);
@@ -171,32 +155,7 @@ const EmployeesList = () => {
                         )}
                       </td>
                       <td>{employee.company_role_name}</td>
-                      {/* <td>
-                        <div style={{ display: "flex", gap: "10px", backgroundColor: "red", padding: "10px" }}>
-  <FaEdit style={{ cursor: "pointer", color: "white" }} />
-  <FaTrash style={{ cursor: "pointer", color: "white" }} />
-</div>
-
-                      </td> */}
-                      {/* <td>
-  <div
-    style={{
-      display: "flex",
-      gap: "10px",
-      backgroundColor: "red",
-      padding: "10px",
-    }}
-  >
-    <FaEdit
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleEdit(employee)}
-    />
-    <FaTrash
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleDelete(employee.employee_id)}
-    />
-  </div>
-</td> */}
+                     
 <td>
   <div
     style={{

@@ -31,11 +31,12 @@ import About from '../src/markup/pages/About';
 // import the Contact component
 import Contact from '../src/markup/pages/Contact';
 // Import the Addcutomers component
-
-import Customers from './markup/pages/admin/Customers';
+import AddCustomers from './markup/pages/admin/AddCustomers';
+// Import the cutomersList component
+import CutomerList from './markup/pages/admin/CustomersList';
 
 // Import the AddVehiclePage component
- import AddVehicle from './markup/pages/admin/AddVehicle';
+//  import AddVehicle from './markup/pages/admin/AddVehicle';
 // Import the AdminDashboard component
 import AdminDashboard from './markup/pages/admin/AdminDashboardpage';
 // Import the PrivateAuthRoute component 
@@ -52,6 +53,7 @@ import Neworder from './markup/pages/admin/Neworder';
 import ServicesManager from './markup/pages/admin/ServicesManager';
 
 import EditEmployees from './markup/pages/admin/EditEmployes';
+import EditCustomer from './markup/pages/admin/EditCustomer';
 function App() {
   return (
     <>
@@ -88,21 +90,23 @@ function App() {
         <Route path="/admin/employees" element={<Employees />} /> 
 
 
-         {/* // Add the Customers Route  */}
+         {/* // Add the CustomerList Route  */}
         <Route path="/admin/customers"
           element={
             <PrivateAuthRoute roles={[2, 3]}>
-              <AddVehicle />
+              <CutomerList />
             </PrivateAuthRoute>
           } />
+              {/* <AddVehicle /> */}
 
-        {/* // Add the Add Vehicle Route  */}
-        <Route path="/admin/add-customer" element={<Customers  />} /> 
+        {/* // Add the Add Customer Route  */}
+        <Route path="/admin/add-customer" element={<AddCustomers  />} /> 
 
         {/* // Add the Services Route  */}
         <Route path="/admin/services" element={<ServicesManager />} />  
         {/* <Route path="/admin/edit-employee/:id" element={<EditEmployee />} /> */}
         <Route path="/admin/employee/:id" element={<EditEmployees />} />
+        <Route path="/admin/customer/:id" element={<EditCustomer />} />
 
 
 
