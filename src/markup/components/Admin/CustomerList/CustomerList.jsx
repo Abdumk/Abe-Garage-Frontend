@@ -5,7 +5,6 @@ import { useAuth } from "../../../../Contexts/AuthContext";
 import { format } from "date-fns";
 import customerService from "../../../../services/customer.service";
 import { useNavigate } from "react-router-dom";
-import EditCustomers from "../EditCustomerForm/EditCustomerForm"; // Import the EditCustomers component
 
 const CustomersList = () => {
   const [customers, setCustomers] = useState([]);
@@ -14,8 +13,10 @@ const CustomersList = () => {
   const { employee } = useAuth();
   const navigate = useNavigate();
   let token = employee?.employee_token || null;
- const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
+//  const [editModalOpen, setEditModalOpen] = useState(false);
+//   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => {
     fetchCustomers();
   }, []);
@@ -71,6 +72,18 @@ const CustomersList = () => {
             <div className="contact-title">
               <h2>Customers</h2>
             </div>
+            {/* search for a customers using  */}
+            <div style={{ marginBottom: "20px" }}>
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Search for a customer using first name,last name,email address of phone number"
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+  />
+</div>
+            {/* search the customer */}
+
             <Table striped bordered hover>
               <thead>
                 <tr>
@@ -81,62 +94,54 @@ const CustomersList = () => {
                   <th>Phone</th>
                   <th>Added Date</th>
                   <th>Active</th>
-
                   <th>Edit/Delete</th>
                 </tr>
               </thead>
               <tbody>
-                {customers.map((customer) => (
-                  <tr key={customer.customer_id}>
-                    <td>{customer.customer_id}</td>
+  {customers
+    .filter((customer) => {
+      const fullText = `${customer.customer_first_name} ${customer.customer_last_name} ${customer.customer_email} ${customer.customer_phone_number}`.toLowerCase();
+      return fullText.includes(searchTerm.toLowerCase());
+    })
+    .map((customer) => (
+      <tr key={customer.customer_id}>
+        <td>{customer.customer_id}</td>
+        <td>{customer.customer_first_name}</td>
+        <td>{customer.customer_last_name}</td>
+        <td>{customer.customer_email}</td>
+        <td>{customer.customer_phone_number}</td>
+        <td>
+          {format(
+            new Date(customer.customer_added_date),
+            "MM - dd - yyyy | kk:mm"
+          )}
+        </td>
+        <td>{customer.active_customer_status ? "Yes" : "No"}</td>
+        <td>
+          <div
+            style={{
+              display: "flex",
+              gap: "10px",
+              backgroundColor: "red",
+              padding: "10px",
+            }}
+          >
+            <FaEdit
+              style={{ cursor: "pointer", color: "white" }}
+              onClick={() => handleEdit(customer)}
+            />
+            <FaTrash
+              style={{ cursor: "pointer", color: "white" }}
+              onClick={() => handleDelete(customer.customer_id)}
+            />
+          </div>
+        </td>
+      </tr>
+    ))}
+</tbody>
 
-                    <td>{customer.customer_first_name}</td>
-                    <td>{customer.customer_last_name}</td>
-                    <td>{customer.customer_email}</td>
-                    <td>{customer.customer_phone}</td>
-                    <td>
-                      {format(
-                        new Date(customer.customer_added_date),
-                        "MM - dd - yyyy | kk:mm"
-                      )}
-                    </td>
-                    <td>{customer.active_customer_status ? "Yes" : "No"}</td>
-
-                    <td>
-  <div
-    style={{
-      display: "flex",
-      gap: "10px",
-      backgroundColor: "red",
-      padding: "10px",
-    }}
-  >
-    <FaEdit
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleEdit(customer)} // ✅ Pass the whole customer object
-    />
-    <FaTrash
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleDelete(customer.customer_id)} // ✅ Pass just the ID
-    />
-  </div>
-</td>
-                  </tr>
-                ))}
-              </tbody>
+             
             </Table>
-{/* 
-{editModalOpen && selectedEmployee && (
-  // <EditEmployee
-  <EditCustomers
-    employee={selectedEmployee}
-    onClose={() => setEditModalOpen(false)}
-    onSave={fetchEmployees} // refetch employees after save
-  />
-)} */}
-
-
-
           </div>
         </section>
       )}
@@ -145,3 +150,5 @@ const CustomersList = () => {
 };
 
 export default CustomersList;
+
+
