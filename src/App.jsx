@@ -100,10 +100,19 @@ function App() {
               {/* <AddVehicle /> */}
 
         {/* // Add the Add Customer Route  */}
-        <Route path="/admin/add-customer" element={<AddCustomers  />} /> 
-
+        <Route path="/admin/add-customer"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+            <AddCustomers  />
+            </PrivateAuthRoute>
+          } />
         {/* // Add the Services Route  */}
-        <Route path="/admin/services" element={<ServicesManager />} />  
+        <Route path="/admin/services"
+          element={
+            <PrivateAuthRoute roles={[2, 3]}>
+              <ServicesManager />
+            </PrivateAuthRoute>
+          } /> 
         {/* <Route path="/admin/edit-employee/:id" element={<EditEmployee />} /> */}
         <Route path="/admin/employee/:id" element={<EditEmployees />} />
         <Route path="/admin/customer/:id" element={<EditCustomer />} />
