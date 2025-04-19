@@ -1,6 +1,6 @@
 import React from 'react'
-import img1 from "../../../../assets/template_assets/images/resource/image-1.jpg" //Adjust the path and dim is 225x429  as needed
-import img2 from "../../../../assets/template_assets/images/resource/image-2.jpg" //Adjust the path and dim is 225x429  as needed
+import img1 from "../../../../assets/template_assets/images/custom/misc/vban1.jpg" //Adjust the path and dim is 225x429  as needed
+import img2 from "../../../../assets/template_assets/images/custom/misc/vban2.jpg" //Adjust the path and dim is 225x429  as needed
 
 function Experience() {
   return (

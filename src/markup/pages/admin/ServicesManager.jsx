@@ -1,6 +1,6 @@
 import React from 'react'
 import AdminMenu from '../../components/Admin/AdminMenu/AdminMenu'
-
+import ServicesManagers from '../../components/Admin/ServicesManager/ServiceManager'
 function ServicesManager() {
   return (
    
@@ -12,7 +12,10 @@ function ServicesManager() {
         <AdminMenu />
       </div>
       <div className="col-md-9 admin-right-side">
-      <h1>Services Manager</h1>
+      
+      <ServicesManagers />
+
+    
 
       </div>
     </div>

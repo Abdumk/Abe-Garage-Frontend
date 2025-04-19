@@ -1,0 +1,52 @@
+.text-dark-blue {
+    color: #0d1e53; /* Dark blue */
+  }
+  
+  .underline {
+    width: 40px;
+    height: 2px;
+    background-color: red;
+    margin-top: -4px;
+  }
+  
+  .custom-input,
+  .custom-textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 12px;
+    /* margin: 10px auto; */
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .custom-input::placeholder,
+  .custom-textarea::placeholder {
+    color: #b0b0b0;
+    font-style: italic;
+  }
+  
+  .service-card {
+    background: white;
+    border-radius: 8px;
+  }
+  .text-center{
+    text-align: center;
+    margin: auto 0;
+    gap: 30px;
+  }
+ 
+
+.custom-input,
+.custom-textarea {
+  max-width: 680px; /* Adjust as needed */
+  width: 100%;
+  margin: 20px ; /* Center it */
+  display: block;
+}
+
+.all{
+    position: relative;
+   width: 100%;
+   padding-right: 130px;
+   padding-left: 53px;
+ }
