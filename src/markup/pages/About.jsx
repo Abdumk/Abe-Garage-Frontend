@@ -3,8 +3,12 @@ import Weare from '../components/reuse/weare/Weare';
 import  WhyChoose from '../components/reuse/whychoose/WhyChoose';
 import Schedule from '../components/reuse/schedule/Schedule';
 import Experience from '../components/reuse/experience/Experience';
-import backgroundImage from '../../assets/template_assets/images/background/bg-1.jpg'; // Update path if needed
-import tireImg from "../../assets/template_assets/images/resource/image-5.jpg"; // Adjust path accordingly
+//import backgroundImage from '../../assets/template_assets/images/background/bg-1.jpg'; // Update path if needed
+import backgroundImage from '../../assets/images/banner/path_banner.jpg'; // Update path if needed
+
+//import tireImg from "../../assets/template_assets/images/resource/image-5.jpg"; // Adjust path accordingly
+import tireImg from "../../assets/images/banner/car-tires-showcased.jpg"; // Adjust path accordingly
+
 function About() {
   return (
     <>

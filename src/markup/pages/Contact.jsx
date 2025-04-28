@@ -1,6 +1,8 @@
 import React from 'react'
 import Schedule from '../components/reuse/schedule/Schedule';
-import backgroundImage from '../../assets/template_assets/images/background/bg-1.jpg'; // Update path if needed
+//import backgroundImage from '../../assets/template_assets/images/background/bg-1.jpg'; // Update path if needed
+import backgroundImage from '../../assets/images/banner/car-tires-showcased.jpg'; // Update path if needed
+
 function Contact() {
   return (
     <>

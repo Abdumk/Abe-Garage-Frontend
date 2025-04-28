@@ -1,25 +1,19 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { Table } from "react-bootstrap";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import React, { useState, useEffect, useMemo } from "react";
+import { useTable } from "react-table";
+import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 import { useAuth } from "../../../../Contexts/AuthContext";
 import { format } from "date-fns";
 import customerService from "../../../../services/customer.service";
 import { useNavigate } from "react-router-dom";
-import EditCustomers from "../EditCustomerForm/EditCustomerForm"; // Import the EditCustomers component
 
 const CustomersList = () => {
   const [customers, setCustomers] = useState([]);
   const [apiError, setApiError] = useState(false);
   const [apiErrorMessage, setApiErrorMessage] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const { employee } = useAuth();
   const navigate = useNavigate();
   let token = employee?.employee_token || null;
- const [editModalOpen, setEditModalOpen] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     fetchCustomers();
@@ -32,8 +26,8 @@ const CustomersList = () => {
           setApiError(true);
           setApiErrorMessage(
             res.status === 401 ? "Please login again"
-            : res.status === 403 ? "You are not authorized to view this page"
-            : "Please try again later"
+              : res.status === 403 ? "You are not authorized to view this page"
+              : "Please try again later"
           );
         }
         return res.json();
@@ -66,6 +60,81 @@ const CustomersList = () => {
     }
   };
 
+  const handleViewProfile = (customerId) => {
+    navigate(`/admin/customer-profile/${customerId}`);
+  };
+ 
+  const filteredCustomers = customers.filter((customer) => {
+    const fullText = `${customer.customer_first_name} ${customer.customer_last_name} ${customer.customer_email} ${customer.customer_phone_number}`.toLowerCase();
+    return fullText.includes(searchTerm.toLowerCase());
+  });
+
+  const data = useMemo(() => filteredCustomers, [filteredCustomers]);
+
+  const columns = useMemo(() => [
+    {
+      Header: "ID",
+      accessor: "customer_id",
+      id: "ustomer_id_column", // Add unique id
+    },
+    {
+      Header: "First Name",
+      accessor: "customer_first_name",
+    },
+    {
+      Header: "Last Name",
+      accessor: "customer_last_name",
+    },
+    {
+      Header: "Email",
+      accessor: "customer_email",
+    },
+    {
+      Header: "Phone",
+      accessor: "customer_phone_number",
+    },
+    {
+      Header: "Added Date",
+      accessor: "customer_added_date",
+      Cell: ({ value }) => format(new Date(value), "MM - dd - yyyy | kk:mm"),
+    },
+    {
+      Header: "Active",
+      accessor: "active_customer_status",
+      Cell: ({ value }) => (value ? "Yes" : "No"),
+    },
+    {
+      Header: "Actions",
+    id: "actions_column", // Unique ID
+    Cell: ({ row }) => (
+      <div style={{ display: "flex", gap: "10px" }}>
+        <FaEye
+          // onClick={() => handleViewProfile(row.original.customer_id)}
+
+          onClick={() => navigate(`/admin/customer-profile/${row.original.customer_id}`)}
+          style={{ cursor: "pointer", color: "green" }}
+        />
+        <FaEdit
+          onClick={() => navigate(`/admin/customer/${row.original.customer_id}`)}
+          style={{ cursor: "pointer", color: "blue" }}
+        />
+        <FaTrash
+          onClick={() => handleDelete(row.original.customer_id)}
+          style={{ cursor: "pointer", color: "red" }}
+        />
+      </div>
+      ),
+    },
+  ], []);
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow
+  } = useTable({ columns, data });
+
   return (
     <>
       {apiError ? (
@@ -76,126 +145,40 @@ const CustomersList = () => {
             <div className="contact-title">
               <h2>Customers</h2>
             </div>
-            {/* search for a customers using  */}
+
             <div style={{ marginBottom: "20px" }}>
-  <input
-    type="text"
-    className="form-control"
-    placeholder="Search for a customer using first name,last name,email address of phone number"
-    value={searchTerm}
-    onChange={(e) => setSearchTerm(e.target.value)}
-  />
-</div>
-            {/* search the customer */}
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search for a customer using first name, last name, email or phone"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
 
-            <Table striped bordered hover>
+            <table {...getTableProps()} className="table table-striped table-bordered table-hover">
               <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>First Name</th>
-                  <th>Last Name</th>
-                  <th>Email</th>
-                  <th>Phone</th>
-                  <th>Added Date</th>
-                  <th>Active</th>
-                  <th>Edit/Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-  {customers
-    .filter((customer) => {
-      const fullText = `${customer.customer_first_name} ${customer.customer_last_name} ${customer.customer_email} ${customer.customer_phone_number}`.toLowerCase();
-      return fullText.includes(searchTerm.toLowerCase());
-    })
-    .map((customer) => (
-      <tr key={customer.customer_id}>
-        <td>{customer.customer_id}</td>
-        <td>{customer.customer_first_name}</td>
-        <td>{customer.customer_last_name}</td>
-        <td>{customer.customer_email}</td>
-        <td>{customer.customer_phone_number}</td>
-        <td>
-          {format(
-            new Date(customer.customer_added_date),
-            "MM - dd - yyyy | kk:mm"
-          )}
-        </td>
-        <td>{customer.active_customer_status ? "Yes" : "No"}</td>
-        <td>
-          <div
-            style={{
-              display: "flex",
-              gap: "10px",
-              backgroundColor: "red",
-              padding: "10px",
-            }}
-          >
-            <FaEdit
-              style={{ cursor: "pointer", color: "white" }}
-              onClick={() => handleEdit(customer)}
-            />
-            <FaTrash
-              style={{ cursor: "pointer", color: "white" }}
-              onClick={() => handleDelete(customer.customer_id)}
-            />
-          </div>
-        </td>
-      </tr>
-    ))}
-</tbody>
-
-              {/* <tbody>
-                {customers.map((customer) => (
-                  <tr key={customer.customer_id}>
-                    <td>{customer.customer_id}</td>
-
-                    <td>{customer.customer_first_name}</td>
-                    <td>{customer.customer_last_name}</td>
-                    <td>{customer.customer_email}</td>
-                    <td>{customer.customer_phone}</td>
-                    <td>
-                      {format(
-                        new Date(customer.customer_added_date),
-                        "MM - dd - yyyy | kk:mm"
-                      )}
-                    </td>
-                    <td>{customer.active_customer_status ? "Yes" : "No"}</td>
-
-                    <td>
-  <div
-    style={{
-      display: "flex",
-      gap: "10px",
-      backgroundColor: "red",
-      padding: "10px",
-    }}
-  >
-    <FaEdit
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleEdit(customer)} // ✅ Pass the whole customer object
-    />
-    <FaTrash
-      style={{ cursor: "pointer", color: "white" }}
-      onClick={() => handleDelete(customer.customer_id)} // ✅ Pass just the ID
-    />
-  </div>
-</td>
+                {headerGroups.map((headerGroup) => (
+                  <tr {...headerGroup.getHeaderGroupProps()}>
+                    {headerGroup.headers.map((column) => (
+                      <th {...column.getHeaderProps()}>{column.render("Header")}</th>
+                    ))}
                   </tr>
                 ))}
-              </tbody> */}
-            </Table>
-{/* 
-{editModalOpen && selectedEmployee && (
-  // <EditEmployee
-  <EditCustomers
-    employee={selectedEmployee}
-    onClose={() => setEditModalOpen(false)}
-    onSave={fetchEmployees} // refetch employees after save
-  />
-)} */}
-
-
-
+              </thead>
+              <tbody {...getTableBodyProps()}>
+                {rows.map((row) => {
+                  prepareRow(row);
+                  return (
+                    <tr {...row.getRowProps()}>
+                      {row.cells.map((cell) => (
+                        <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                      ))}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </section>
       )}
@@ -209,11 +192,12 @@ export default CustomersList;
 
 // import React, { useState, useEffect } from "react";
 // import { Table } from "react-bootstrap";
-// import { FaEdit, FaTrash } from "react-icons/fa";
+// import { FaEdit, FaTrash,FaEye } from "react-icons/fa";
 // import { useAuth } from "../../../../Contexts/AuthContext";
 // import { format } from "date-fns";
 // import customerService from "../../../../services/customer.service";
 // import { useNavigate } from "react-router-dom";
+// import EditCustomers from "../EditCustomerForm/EditCustomerForm"; // Import the EditCustomers component
 
 // const CustomersList = () => {
 //   const [customers, setCustomers] = useState([]);
@@ -221,11 +205,10 @@ export default CustomersList;
 //   const [apiErrorMessage, setApiErrorMessage] = useState(null);
 //   const { employee } = useAuth();
 //   const navigate = useNavigate();
-//   const token = employee?.employee_token || null;
-
+//   let token = employee?.employee_token || null;
+//  const [editModalOpen, setEditModalOpen] = useState(false);
+//   const [selectedCustomer, setSelectedCustomer] = useState(null);
 //   const [searchTerm, setSearchTerm] = useState("");
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const itemsPerPage = 9;
 
 //   useEffect(() => {
 //     fetchCustomers();
@@ -237,11 +220,9 @@ export default CustomersList;
 //         if (!res.ok) {
 //           setApiError(true);
 //           setApiErrorMessage(
-//             res.status === 401
-//               ? "Please login again"
-//               : res.status === 403
-//               ? "You are not authorized to view this page"
-//               : "Please try again later"
+//             res.status === 401 ? "Please login again"
+//             : res.status === 403 ? "You are not authorized to view this page"
+//             : "Please try again later"
 //           );
 //         }
 //         return res.json();
@@ -274,18 +255,6 @@ export default CustomersList;
 //     }
 //   };
 
-//   // Filtered + Paginated
-//   const filteredCustomers = customers.filter((customer) => {
-//     const fullText = `${customer.customer_first_name} ${customer.customer_last_name} ${customer.customer_email} ${customer.customer_phone_number}`.toLowerCase();
-//     return fullText.includes(searchTerm.toLowerCase());
-//   });
-
-//   const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
-//   const startIndex = (currentPage - 1) * itemsPerPage;
-//   const currentCustomers = filteredCustomers.slice(startIndex, startIndex + itemsPerPage);
-//   console.log("Total customers:", customers.length);
-//   console.log("Filtered customers:", filteredCustomers.length);
-  
 //   return (
 //     <>
 //       {apiError ? (
@@ -296,19 +265,17 @@ export default CustomersList;
 //             <div className="contact-title">
 //               <h2>Customers</h2>
 //             </div>
-
+//             {/* search for a customers using  */}
 //             <div style={{ marginBottom: "20px" }}>
-//               <input
-//                 type="text"
-//                 className="form-control"
-//                 placeholder="Search for a customer using first name, last name, email address of phone number"
-//                 value={searchTerm}
-//                 onChange={(e) => {
-//                   setSearchTerm(e.target.value);
-//                   setCurrentPage(1); // Reset to first page on search
-//                 }}
-//               />
-//             </div>
+//   <input
+//     type="text"
+//     className="form-control"
+//     placeholder="Search for a customer using first name,last name,email address of phone number"
+//     value={searchTerm}
+//     onChange={(e) => setSearchTerm(e.target.value)}
+//   />
+// </div>
+//             {/* search the customer */}
 
 //             <Table striped bordered hover>
 //               <thead>
@@ -324,88 +291,53 @@ export default CustomersList;
 //                 </tr>
 //               </thead>
 //               <tbody>
-//                 {currentCustomers.map((customer) => (
-//                   <tr key={customer.customer_id}>
-//                     <td>{customer.customer_id}</td>
-//                     <td>{customer.customer_first_name}</td>
-//                     <td>{customer.customer_last_name}</td>
-//                     <td>{customer.customer_email}</td>
-//                     <td>{customer.customer_phone_number}</td>
-//                     <td>
-//                       {format(
-//                         new Date(customer.customer_added_date),
-//                         "MM - dd - yyyy | kk:mm"
-//                       )}
-//                     </td>
-//                     <td>{customer.active_customer_status ? "Yes" : "No"}</td>
-//                     <td>
-//                       <div
-//                         style={{
-//                           display: "flex",
-//                           gap: "10px",
-//                           backgroundColor: "red",
-//                           padding: "10px",
-//                         }}
-//                       >
-//                         <FaEdit
-//                           style={{ cursor: "pointer", color: "white" }}
-//                           onClick={() => handleEdit(customer)}
-//                         />
-//                         <FaTrash
-//                           style={{ cursor: "pointer", color: "white" }}
-//                           onClick={() => handleDelete(customer.customer_id)}
-//                         />
-//                       </div>
-//                     </td>
-//                   </tr>
-//                 ))}
-//               </tbody>
+//   {customers
+//     .filter((customer) => {
+//       const fullText = `${customer.customer_first_name} ${customer.customer_last_name} ${customer.customer_email} ${customer.customer_phone_number}`.toLowerCase();
+//       return fullText.includes(searchTerm.toLowerCase());
+//     })
+//     .map((customer) => (
+//       <tr key={customer.customer_id}>
+//         <td>{customer.customer_id}</td>
+//         <td>{customer.customer_first_name}</td>
+//         <td>{customer.customer_last_name}</td>
+//         <td>{customer.customer_email}</td>
+//         <td>{customer.customer_phone_number}</td>
+//         <td>
+//           {format(
+//             new Date(customer.customer_added_date),
+//             "MM - dd - yyyy | kk:mm"
+//           )}
+//         </td>
+//         <td>{customer.active_customer_status ? "Yes" : "No"}</td>
+//         <td>
+//           <div
+//             style={{
+//               display: "flex",
+//               gap: "10px",
+//               backgroundColor: "red",
+//               padding: "10px",
+//             }}
+//           >
+//             <FaEdit
+//               style={{ cursor: "pointer", color: "white" }}
+//               onClick={() => handleEdit(customer)}
+//             />
+//             <FaTrash
+//               style={{ cursor: "pointer", color: "white" }}
+//               onClick={() => handleDelete(customer.customer_id)}
+//             />
+//           </div>
+//         </td>
+//       </tr>
+//     ))}
+// </tbody>
+
 //             </Table>
 
-//             {/* Pagination Controls */}
-//             {totalPages > 1 && (
-//               <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", gap: "10px" }}>
-//                 <button
-//                   onClick={() => setCurrentPage(1)}
-//                   disabled={currentPage === 1}
-//                   style={paginationBtnStyle}
-//                   onMouseOver={(e) => (e.target.style.backgroundColor = "blue")}
-//                   onMouseOut={(e) => (e.target.style.backgroundColor = "black")}
-//                 >
-//                   &laquo; First
-//                 </button>
-//                 <button
-//                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-//                   disabled={currentPage === 1}
-//                   style={paginationBtnStyle}
-//                   onMouseOver={(e) => (e.target.style.backgroundColor = "blue")}
-//                   onMouseOut={(e) => (e.target.style.backgroundColor = "black")}
-//                 >
-//                   &lt; Previous
-//                 </button>
-//                 <span style={{ padding: "5px 10px", fontWeight: "bold" }}>
-//                   Page {currentPage} of {totalPages}
-//                 </span>
-//                 <button
-//                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-//                   disabled={currentPage === totalPages}
-//                   style={paginationBtnStyle}
-//                   onMouseOver={(e) => (e.target.style.backgroundColor = "blue")}
-//                   onMouseOut={(e) => (e.target.style.backgroundColor = "black")}
-//                 >
-//                   Next &gt;
-//                 </button>
-//                 <button
-//                   onClick={() => setCurrentPage(totalPages)}
-//                   disabled={currentPage === totalPages}
-//                   style={paginationBtnStyle}
-//                   onMouseOver={(e) => (e.target.style.backgroundColor = "blue")}
-//                   onMouseOut={(e) => (e.target.style.backgroundColor = "black")}
-//                 >
-//                   Last &raquo;
-//                 </button>
-//               </div>
-//             )}
+
+
+
 //           </div>
 //         </section>
 //       )}
@@ -413,12 +345,6 @@ export default CustomersList;
 //   );
 // };
 
-// const paginationBtnStyle = {
-//   backgroundColor: "black",
-//   color: "white",
-//   padding: "5px 10px",
-//   cursor: "pointer",
-//   border: "none",
-// };
-
 // export default CustomersList;
+
+

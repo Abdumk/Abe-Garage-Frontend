@@ -1,5 +1,6 @@
 import React from 'react'
 import backgroundImage from "../../../../assets/images/banner/banner.jpg"; // Adjust if filename is different
+
 function Weare() {
   return (
     <div className="page-wrapper">

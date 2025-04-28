@@ -42,18 +42,28 @@ import AdminDashboard from './markup/pages/admin/AdminDashboardpage';
 // Import the PrivateAuthRoute component 
 import PrivateAuthRoute from './markup/components/Auth/PrivateAuthRoute';
 // Import Orders component
-import Orders from './markup/pages/admin/Orders';
+// import Orders from './markup/pages/admin/Orders';
 // Import Unauthorized component
 import Unauthorized from './markup/pages/Unauthorized';
 // Import the Employees
 import Employees from './markup/pages/admin/Employees';
 // Import the Neworder component
-import Neworder from './markup/pages/admin/Neworder';
+// import Neworder from './markup/pages/admin/Neworder';
 // Import the Services Manager component
 import ServicesManager from './markup/pages/admin/ServicesManager';
 
 import EditEmployees from './markup/pages/admin/EditEmployes';
-import EditCustomer from './markup/pages/admin/EditCustomer';
+import EditCustomer from './markup/pages/admin/EditCustomer'; 
+// Import the CustomerProfile component 
+// import CustomerProfile from './markup/pages/admin/CustomersProfile';
+import CustomerProfile from './markup/components/Admin/CustomerProfile/CustomerProfile';
+//Import the NewOrder 
+import NewOrder from './markup/components/Admin/NewOrder/NewOrder';
+//Import the OrderDetails 
+import OrderDetails from './markup/components/Admin/Orders/Orders';  
+
+// import the AddVehicleForm
+import AddVehicleForm from './markup/components/Admin/AddVehicleForm/AddVehicleForm';
 function App() {
   return (
     <>
@@ -69,14 +79,13 @@ function App() {
 
 
          {/* // Add the Orders Route  */}
-         <Route path="/admin/orders"
+         {/* <Route path="/admin/orders"
           element={
             <PrivateAuthRoute roles={[1, 2, 3]}>
               <Orders />
             </PrivateAuthRoute>
-          } />
-        {/* // Add the New order Route  */}
-        <Route path="admin/order" element={<Neworder />} />  
+          } /> */}
+      
 
     {/* // Add the Add Employees Route  */}
          <Route path="/admin/add-employee"
@@ -97,7 +106,7 @@ function App() {
               <CutomerList />
             </PrivateAuthRoute>
           } />
-              {/* <AddVehicle /> */}
+            
 
         {/* // Add the Add Customer Route  */}
         <Route path="/admin/add-customer"
@@ -117,12 +126,44 @@ function App() {
         <Route path="/admin/employee/:id" element={<EditEmployees />} />
         <Route path="/admin/customer/:id" element={<EditCustomer />} />
 
+   
 
 
-
-        
-        {/* <Route path="/admin/add-customer" element={<Customers />} />  */}
-
+<Route 
+  path="/admin/customer-profile/:customerId"
+  element={
+    <PrivateAuthRoute roles={[2, 3]}>
+      <CustomerProfile />
+    </PrivateAuthRoute>
+  }
+/>
+  {/* // Add the New order Route  */}
+        {/* <Route path="admin/order" element={<Neworder />} />   */}
+<Route 
+  path="/admin/order"
+  element={
+    <PrivateAuthRoute roles={[1, 2, 3]}>
+      <NewOrder />
+    </PrivateAuthRoute>
+  }
+/>
+<Route 
+  // path="/admin/orders/:orderId"
+  path="/admin/orders"
+  element={
+    <PrivateAuthRoute roles={[1, 2, 3]}>
+      <OrderDetails />
+    </PrivateAuthRoute>
+  }
+/>
+<Route 
+  path="/admin/add-vehicle/:customer-Id"
+  element={
+    <PrivateAuthRoute roles={[2, 3]}>
+      <AddVehicleForm />
+    </PrivateAuthRoute>
+  }
+/>
 
       </Routes>
       <Footer />

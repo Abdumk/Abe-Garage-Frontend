@@ -1,5 +1,6 @@
 import React from 'react'
-import img3 from "../../../../assets/template_assets/images/resource/image-3.jpg" //Adjust the path and dim is 946x533 as needed
+//import img3 from "../../../../assets/template_assets/images/resource/image-3.jpg" //Adjust the path and dim is 946x533 as needed
+import img3 from "../../../../assets/images/banner/young_car_workshop.jpg" //Adjust the path and dim is 946x533 as needed
 
 function QualityService() {
   return (

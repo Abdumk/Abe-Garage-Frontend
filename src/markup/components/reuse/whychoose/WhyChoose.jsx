@@ -1,5 +1,6 @@
 import React from 'react'
-import img4 from "../../../../assets/template_assets/images/resource/image-4.jpg" // Adjust the path and dim is 192x379as needed
+//import img4 from "../../../../assets/template_assets/images/resource/image-4.jpg" // Adjust the path and dim is 192x379as needed
+import img4 from "../../../../assets/images/banner/service_img.jpg" // Adjust the path and dim is 192x379as needed
 
 function WhyChoose() {
   return (
