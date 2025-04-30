@@ -7,7 +7,9 @@ import { AuthProvider } from './Contexts/AuthContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-   <BrowserRouter>  {/* Wrap your app with BrowserRouter */}
+   {/* <BrowserRouter>  */}
+    {/* Wrap your app with BrowserRouter */}
+   <BrowserRouter basename="/Abe-Garage-Frontend">
       <AuthProvider>
         <App />
       </AuthProvider>
