@@ -58,9 +58,12 @@ import EditCustomer from './markup/pages/admin/EditCustomer';
 // import CustomerProfile from './markup/pages/admin/CustomersProfile';
 import CustomerProfile from './markup/components/Admin/CustomerProfile/CustomerProfile';
 //Import the NewOrder 
-import NewOrder from './markup/components/Admin/NewOrder/NewOrder';
+import NewOrder from './markup/pages/admin/Neworder';
 //Import the OrderDetails 
-import OrderDetails from './markup/components/Admin/Orders/Orders';  
+// import OrderDetails from './markup/components/Admin/Orders/Orders';  
+import OrderDetails from '../src/markup/pages/admin/Orders';
+// import EditOrderPage
+import EditOrderPage from '../src/markup/pages/admin/EditOrderPage';
 
 // import the AddVehicleForm
 import AddVehicleForm from './markup/components/Admin/AddVehicleForm/AddVehicleForm';
@@ -96,7 +99,15 @@ function App() {
           } />
        
        {/* // Add the Employees list Route N:B the autorization code write in itself component */}
-        <Route path="/admin/employees" element={<Employees />} /> 
+        {/* <Route path="/admin/employees" element={<Employees />} />  */}
+        <Route path="/admin/employees"
+          element={
+            <PrivateAuthRoute roles={[3]}>
+              <Employees />
+            </PrivateAuthRoute>
+          } />
+
+
 
 
          {/* // Add the CustomerList Route  */}
@@ -126,7 +137,8 @@ function App() {
         <Route path="/admin/employee/:id" element={<EditEmployees />} />
         <Route path="/admin/customer/:id" element={<EditCustomer />} />
 
-   
+       
+        <Route path="/admin/orders/edit/:id" element={<EditOrderPage />} />
 
 
 <Route 
